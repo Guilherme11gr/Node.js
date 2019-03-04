@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./bin/server --exec babel-node --presets babel-preset-env"
+    "start": "nodemon ./bin/server --exec babel-node --presets babel-preset-env",
+    "debug": "./bin/server"
   },
   "keywords": [],
   "author": "",

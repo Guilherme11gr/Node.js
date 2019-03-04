@@ -5,7 +5,9 @@ import debug from 'debug';
 import app from '../src/app';
 import ServerUtils from './SeverUtils';
 
-const port = ServerUtils.normalizePort(process.env.PORT || 8080);
+const serverUtils = new ServerUtils();
+
+const port = serverUtils.normalizePort(process.env.PORT || 8080);
 
 app.set('port', port);
 
@@ -13,7 +15,7 @@ const server = http.createServer(app);
 
 server.listen(port);
 
-server.on('error', ServerUtils.onError);
+server.on('error', serverUtils.onError);
 
 server.on('listening', () => {
   const addr = server.address();
@@ -23,4 +25,4 @@ server.on('listening', () => {
   debug(`Listening on ${bind}`);
 });
 
-ServerUtils.loading(port);
+serverUtils.loading(port);

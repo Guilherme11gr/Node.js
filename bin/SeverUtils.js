@@ -1,7 +1,7 @@
 'use-strict';
 
 class ServerUtils { /*eslint-disable*/
-  static normalizePort(value) {
+  normalizePort(value) {
     const port = parseInt(value, 10);
 
     if (isNaN(port)) {
@@ -15,7 +15,7 @@ class ServerUtils { /*eslint-disable*/
     return false;
   }
 
-  static onError({ syscall, code}) {
+  onError({ syscall, code }) {
     const port = parseInt(value, 10);
 
     if (syscall !== 'listen') {
@@ -38,7 +38,7 @@ class ServerUtils { /*eslint-disable*/
     }
   }
 
-  static loading(startPort) {
+  loading(startPort) {
     console.clear();
     const P = ['\\', '|', '/', '-'];
     let x = 0;

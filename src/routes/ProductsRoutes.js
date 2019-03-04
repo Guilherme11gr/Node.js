@@ -4,24 +4,27 @@ import express from 'express';
 import ProductController from '../controllers/ProductsController';
 
 class ProductRouter {
-  static routes() {
-    const router = express.Router();
+  constructor() {
+    this.router = express.Router();
+    this.productController = new ProductController();
+  }
 
-    router.get('/', ProductController.get);
+  routes() {
+    this.router.get('/', this.productController.get);
 
-    router.get('/:slug', ProductController.getBySlug);
+    this.router.get('/:slug', this.productController.getBySlug);
 
-    router.get('/admin/:id', ProductController.getById);
+    this.router.get('/admin/:id', this.productController.getById);
 
-    router.get('/tag/:tag', ProductController.getByTag);
+    this.router.get('/tag/:tag', this.productController.getByTag);
 
-    router.post('/', ProductController.post);
+    this.router.post('/', this.productController.post);
 
-    router.put('/:id', ProductController.put);
+    this.router.put('/:id', this.productController.put);
 
-    router.delete('/', ProductController.del);
+    this.router.delete('/', this.productController.del);
 
-    return router;
+    return this.router;
   }
 }
 

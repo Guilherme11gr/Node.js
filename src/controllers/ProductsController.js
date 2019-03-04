@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use-strict';
 
 import mongoose from 'mongoose';
@@ -6,16 +7,16 @@ import '../models/products';
 const Product = mongoose.model('Product');
 
 class ProductController {
-  static async get(req, res) {
+  async get(req, res) {
     try {
       const products = await Product.find({ active: true }, 'title slug description price');
       res.status(200).send(products);
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao listar produtos !', data: error });
+      res.status(400).send({ message: 'Falha ao listar produtos !', data: error.message });
     }
   }
 
-  static async getBySlug(req, res) {
+  async getBySlug(req, res) {
     try {
       const { slug } = req.params;
 
@@ -27,7 +28,7 @@ class ProductController {
     }
   }
 
-  static async getById(req, res) {
+  async getById(req, res) {
     try {
       const { id } = req.params;
 
@@ -39,7 +40,7 @@ class ProductController {
     }
   }
 
-  static async getByTag(req, res) {
+  async getByTag(req, res) {
     try {
       const { tag } = req.params;
 
@@ -55,7 +56,7 @@ class ProductController {
     }
   }
 
-  static async post({ body }, res) {
+  async post({ body }, res) {
     const product = new Product(body);
 
     try {
@@ -67,7 +68,7 @@ class ProductController {
     }
   }
 
-  static async put({ params, body }, res) {
+  async put({ params, body }, res) {
     const { id } = params;
     const { title, description, price } = body;
 
@@ -80,7 +81,7 @@ class ProductController {
     }
   }
 
-  static async del({ params }, res) { // TODO: fazer o delete pelo body;
+  async del({ params }, res) { // TODO: fazer o delete pelo body;
     const { id } = params;
     try {
       const product = await Product.findByIdAndUpdate(id);
