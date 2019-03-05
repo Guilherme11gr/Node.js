@@ -9,7 +9,7 @@ class ProductRouter {
     this.productController = new ProductController();
   }
 
-  routes() {
+  routes = () => {
     this.router.get('/', this.productController.get);
 
     this.router.get('/:slug', this.productController.getBySlug);
@@ -22,10 +22,10 @@ class ProductRouter {
 
     this.router.put('/:id', this.productController.put);
 
-    this.router.delete('/', this.productController.del);
+    this.router.delete('/', this.productController.delete);
 
     return this.router;
-  }
+  };
 }
 
 export default ProductRouter;

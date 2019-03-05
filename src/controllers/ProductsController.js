@@ -1,95 +1,98 @@
-/* eslint-disable */
 'use-strict';
 
-import mongoose from 'mongoose';
-import '../models/products';
-
-const Product = mongoose.model('Product');
+import ProductValidator from './ProductsValidator';
+import ProductRepository from '../repositories/ProductRepository';
 
 class ProductController {
-  async get(req, res) {
+  constructor() {
+    this.repository = new ProductRepository();
+  }
+
+  get = async (req, res) => {
     try {
-      const products = await Product.find({ active: true }, 'title slug description price');
+      const products = await this.repository.get();
+
       res.status(200).send(products);
     } catch (error) {
       res.status(400).send({ message: 'Falha ao listar produtos !', data: error.message });
     }
-  }
+  };
 
-  async getBySlug(req, res) {
+  getBySlug = async ({ params }, res) => {
     try {
-      const { slug } = req.params;
+      const { slug } = params;
 
-      const products = await Product.findOne({ slug, active: true }, 'title slug description price');
+      const products = await this.repository.getBySlug(slug);
 
       res.status(200).send(products);
     } catch (error) {
       res.status(400).send({ message: 'Falha ao listar produtos !', data: error });
     }
-  }
+  };
 
-  async getById(req, res) {
+  getById = async ({ params }, res) => {
     try {
-      const { id } = req.params;
+      const { id } = params;
 
-      const products = await Product.findById({ id, active: true }, 'title slug description price');
+      const products = await this.repository.getById(id);
 
       res.status(200).send(products);
     } catch (error) {
       res.status(400).send({ message: 'Falha ao listar produtos !', data: error });
     }
-  }
+  };
 
-  async getByTag(req, res) {
+  getByTag = async ({ params }, res) => {
     try {
-      const { tag } = req.params;
+      const { tag } = params;
 
-      const products = await Product.find({ tag, active: true }, 'title slug description price tags');
-
-      if (products.length === 0) {
-        throw new Error(`Nenhum produto encontrado com a tag '${tag}' !`);
-      }
+      const products = await this.repository.getByTag(tag);
 
       res.status(200).send(products);
     } catch ({ message }) {
       res.status(400).send({ message });
     }
-  }
+  };
 
-  async post({ body }, res) {
-    const product = new Product(body);
+  post = async ({ body }, res) => {
+    const contract = new ProductValidator();
 
     try {
-      const response = await product.save();
+      if (contract.isProductValid(body)) {
+        const response = this.repository.create(body);
 
-      res.status(201).send({ message: 'Produto cadastrado com sucesso !', data: response });
+        res.status(201).send({ message: 'Produto cadastrado com sucesso !', data: response });
+      } else {
+        res.status(400).send({ message: 'Falha ao cadastrar produto !', data: contract.getErrors() });
+      }
     } catch (error) {
       res.status(400).send({ message: 'Falha ao cadastrar produto !', data: error });
     }
-  }
+  };
 
-  async put({ params, body }, res) {
+  put = async ({ params, body }, res) => {
     const { id } = params;
-    const { title, description, price } = body;
 
     try {
-      const product = await Product.findByIdAndUpdate(id, { title, description, price });
+      const product = await this.repository.update(id, body);
 
       res.status(200).send({ data: product, message: 'Produto atualizado com sucesso !' });
     } catch (error) {
       res.status(400).send({ message: 'Falha ao atualizar produto !', data: error });
     }
-  }
+  };
 
-  async del({ params }, res) { // TODO: fazer o delete pelo body;
+  delete = async ({ params }, res) => {
     const { id } = params;
+
     try {
-      const product = await Product.findByIdAndUpdate(id);
+      const product = await this.repository.remove(id);
+
       res.status(200).send({ data: product, message: 'Produto removido com sucesso !' });
     } catch (error) {
       res.status(400).send({ message: 'Falha ao remover produto !', data: error });
     }
-  }
+  };
 }
 
 export default ProductController;

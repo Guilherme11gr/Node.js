@@ -1,7 +1,7 @@
 'use-strict';
 
 class ServerUtils { /*eslint-disable*/
-  normalizePort(value) {
+  normalizePort = (value) => {
     const port = parseInt(value, 10);
 
     if (isNaN(port)) {
@@ -15,7 +15,7 @@ class ServerUtils { /*eslint-disable*/
     return false;
   }
 
-  onError({ syscall, code }) {
+  onError = ({ syscall, code }) => {
     const port = parseInt(value, 10);
 
     if (syscall !== 'listen') {
@@ -29,16 +29,18 @@ class ServerUtils { /*eslint-disable*/
         console.error(`${bind} requires elevated privileges`);
         process.exit(1);
         break;
+
       case 'EADRINUSE':
         console.error(`${bind} is already in use`);
         process.exit(1);
         break;
+
       default:
         throw new Error();
     }
   }
 
-  loading(startPort) {
+  loading = (startPort) => {
     console.clear();
     const P = ['\\', '|', '/', '-'];
     let x = 0;

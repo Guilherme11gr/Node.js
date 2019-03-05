@@ -5,21 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./bin/server --exec babel-node --presets babel-preset-env",
+    "start": "nodemon --exec babel-node ./bin/server",
     "debug": "./bin/server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^5.12.0",
+    "eslint": "^5.15.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "nodemon": "^1.18.9"
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.16.0",
+    "nodemon": "^1.18.10"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -27,6 +31,6 @@
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "http": "0.0.0",
-    "mongoose": "^5.4.7"
+    "mongoose": "^5.4.17"
   }
 }
