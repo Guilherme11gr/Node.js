@@ -16,11 +16,14 @@ class ProductRepository {
 
   getByTag = async tags => this.product.find({ tags, active: true }, 'title slug description price tags');
 
-  create = async product => this.product.save(product);
+  create = async (product) => { // eslint-disable-next-line
+    const newProduct = new this.product(product);
+    return newProduct.save(newProduct);
+  };
 
-  update = async (id, produtc) => this.product.findByIdAndUpdate(id, produtc, { new: true });
+  update = async (_id, produtc) => this.product.findOneAndUpdate({ _id }, produtc, { new: true });
 
-  remove = async id => this.product.findOneAndDelete(id);
+  remove = async _id => this.product.findOneAndDelete({ _id });
 }
 
 export default ProductRepository;

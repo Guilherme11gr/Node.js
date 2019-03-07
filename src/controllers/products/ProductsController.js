@@ -1,7 +1,7 @@
 'use-strict';
 
 import ProductValidator from './ProductsValidator';
-import ProductRepository from '../repositories/ProductRepository';
+import ProductRepository from '../../repositories/ProductRepository';
 
 class ProductController {
   constructor() {
@@ -14,7 +14,7 @@ class ProductController {
 
       res.status(200).send(products);
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao listar produtos !', data: error.message });
+      res.status(400).send({ message: 'Failed to list products', data: error.message });
     }
   };
 
@@ -26,7 +26,7 @@ class ProductController {
 
       res.status(200).send(products);
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao listar produtos !', data: error });
+      res.status(400).send({ message: 'Failed to list products', data: error });
     }
   };
 
@@ -38,7 +38,7 @@ class ProductController {
 
       res.status(200).send(products);
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao listar produtos !', data: error });
+      res.status(400).send({ message: 'Failed to list products', data: error });
     }
   };
 
@@ -59,14 +59,14 @@ class ProductController {
 
     try {
       if (contract.isProductValid(body)) {
-        const response = this.repository.create(body);
+        const response = await this.repository.create(body);
 
-        res.status(201).send({ message: 'Produto cadastrado com sucesso !', data: response });
+        res.status(201).send({ message: 'Product successfully registered', data: response });
       } else {
-        res.status(400).send({ message: 'Falha ao cadastrar produto !', data: contract.getErrors() });
+        res.status(400).send({ message: 'Failed to register Product', data: contract.getErrors() });
       }
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao cadastrar produto !', data: error });
+      res.status(400).send({ message: 'Failed to register Product', data: error });
     }
   };
 
@@ -76,21 +76,20 @@ class ProductController {
     try {
       const product = await this.repository.update(id, body);
 
-      res.status(200).send({ data: product, message: 'Produto atualizado com sucesso !' });
+      res.status(200).send({ data: product, message: 'Product successfully updated' });
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao atualizar produto !', data: error });
+      res.status(400).send({ message: 'Failed to update product', data: error });
     }
   };
 
-  delete = async ({ params }, res) => {
-    const { id } = params;
-
+  delete = async ({ body }, res) => {
+    const { id } = body;
     try {
       const product = await this.repository.remove(id);
 
-      res.status(200).send({ data: product, message: 'Produto removido com sucesso !' });
+      res.status(200).send({ data: product, message: 'Product successfully removed' });
     } catch (error) {
-      res.status(400).send({ message: 'Falha ao remover produto !', data: error });
+      res.status(400).send({ message: 'Failed to remove product', data: error });
     }
   };
 }

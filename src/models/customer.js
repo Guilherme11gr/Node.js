@@ -6,48 +6,29 @@ mongoose.set('useCreateIndex', true);
 
 const schema = new Schema({
 
-  title: {
+  name: {
     type: String,
     required: true,
     trim: true,
   },
 
-  slug: {
-    type: String,
-    required: true,
-    trim: true,
-    index: true,
-    unique: true,
-  },
-
-  description: {
+  email: {
     type: String,
     required: true,
     trim: true,
   },
 
-  price: {
-    type: Number,
+  password: {
+    type: String,
     required: true,
+    trim: true,
   },
 
-  active: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
-
-  tags: [{
+  roles: [{
     type: String,
     required: true,
   }],
 
-  image: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-
 });
 
-export default mongoose.model('Product', schema);
+export default mongoose.model('Customer', schema);

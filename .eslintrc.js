@@ -3,6 +3,7 @@ module.exports = {
   "parser": "babel-eslint",
   "plugins": ["babel"],
   "rules": {
-    "babel/semi": 1
+    "babel/semi": 1,
+    "object-curly-newline": "off"
   }
 };

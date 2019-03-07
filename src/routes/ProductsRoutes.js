@@ -1,12 +1,14 @@
 'use-strict';
 
 import express from 'express';
-import ProductController from '../controllers/ProductsController';
+import ProductController from '../controllers/products/ProductsController';
+import AuthServices from '../services/AuthServices';
 
 class ProductRouter {
   constructor() {
     this.router = express.Router();
     this.productController = new ProductController();
+    this.authService = new AuthServices();
   }
 
   routes = () => {
@@ -14,15 +16,15 @@ class ProductRouter {
 
     this.router.get('/:slug', this.productController.getBySlug);
 
-    this.router.get('/admin/:id', this.productController.getById);
-
     this.router.get('/tag/:tag', this.productController.getByTag);
 
-    this.router.post('/', this.productController.post);
+    this.router.get('/admin/:id', this.authService.isAdmin, this.productController.getById);
 
-    this.router.put('/:id', this.productController.put);
+    this.router.post('/', this.authService.isAdmin, this.productController.post);
 
-    this.router.delete('/', this.productController.delete);
+    this.router.put('/:id', this.authService.isAdmin, this.productController.put);
+
+    this.router.delete('/', this.authService.isAdmin, this.productController.delete);
 
     return this.router;
   };

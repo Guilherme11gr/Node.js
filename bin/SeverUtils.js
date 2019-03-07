@@ -2,21 +2,19 @@
 
 class ServerUtils { /*eslint-disable*/
   normalizePort = (value) => {
-    const port = parseInt(value, 10);
+    this.value = value;
+    
+    const port = parseInt(this.value, 10);
 
-    if (isNaN(port)) {
-      return value;
-    }
+    if (isNaN(port)) return this.value;
 
-    if (port => 0) {
-      return port;
-    }
+    if (port => 0) return port;
 
     return false;
   }
 
   onError = ({ syscall, code }) => {
-    const port = parseInt(value, 10);
+    const port = parseInt(this.value, 10);
 
     if (syscall !== 'listen') {
       throw new Error();
@@ -30,7 +28,7 @@ class ServerUtils { /*eslint-disable*/
         process.exit(1);
         break;
 
-      case 'EADRINUSE':
+      case 'EADDRINUSE':
         console.error(`${bind} is already in use`);
         process.exit(1);
         break;
@@ -45,7 +43,7 @@ class ServerUtils { /*eslint-disable*/
     const P = ['\\', '|', '/', '-'];
     let x = 0;
     return setInterval(() => {
-      process.stdout.write(`\r \x1b[34m API rodando na porta \x1b[36m${startPort}\x1b[0m \x1b[34m${P[x++]} `);
+      process.stdout.write(`\r \x1b[34m API started on port: \x1b[36m${startPort}\x1b[0m \x1b[34m${P[x++]} `);
       x &= 3;
     }, 125);
   }

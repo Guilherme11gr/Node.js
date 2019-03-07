@@ -13,7 +13,9 @@ class ValidadorContract { /* eslint-disable */
 
   isFixedLen = (value, len, message) => value.length != len ? this.errors.push({ message }) : null;
 
-  isNumber = (value, message) => typeof value === 'number' ? this.errors.push({ message }) : null;
+  isNumber = (value, message) => !typeof value === 'number' ? this.errors.push({ message }) : null;
+
+  isString = (value, message) => !typeof value === 'string' ? this.errors.push({ message }) : null;
 
   hasMinValue = (value, min, message) => value < min ? this.errors.push({ message }) : null
 
@@ -22,7 +24,21 @@ class ValidadorContract { /* eslint-disable */
     !reg.test(value) ? this.errors.push({ message }) : null
   }
 
+  /**
+   * @param { Array } options - options
+   * @param { Array } valueToMatch - value to match any option
+   * @returns { Boolean } true if valueToMatch corresponds to any of the options
+   */
+  isEqualTo = (options, valueToMatch, message) => {
+    const isEqual = options.some(value => value === valueToMatch);
+    !isEqual ? this.errors.push({ message }) : null;
+  }
+
+  isArray = (value, message) => !Array.isArray(value) ? this.errors.push({ message }) : null;
+
   getErrors = () => this.errors;
+
+  setErrors = (error) => this.errors.concat(error);
 
   clear = () => this.errors = [];
 
